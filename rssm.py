@@ -5,7 +5,7 @@ import math
 class RSSM(nn.module):
     def __init__(self, action_dim, embedding_dim, 
                  ht_dim=512, categoricals=32, classes=32):
-        
+        super().__init__()
         self.ht_dim = ht_dim
         self.categoricals = categoricals
         self.classes = classes
@@ -28,6 +28,16 @@ class RSSM(nn.module):
             nn.Linear(1024, self.zt_dim)
         )
         
+        # named dynamics predictor in paper
+        self.transition_network = nn.Sequential(
+            nn.Linear(self.ht_dim, 1024),
+            nn.LayerNorm(1024),
+            nn.ELU(),
+            nn.Linear(1024, 1024),
+            nn.LayerNorm(1024),
+            nn.ELU(),
+            nn.Linear(1024, self.zt_dim)
+        )
         
         
         
