@@ -1,7 +1,14 @@
 [project]
 name = "axia-model"
 version = "0.1.0"
-description = "Add your description here"
+description = "latent space world model for use in the Axia project "
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "gymnasium>=1.2.3",
+    "mujoco>=3.5.0",
+    "numpy>=2.4.2",
+    "panda-gym>=3.0.7",
+    "torch>=2.10.0",
+    "torchvision>=0.25.0",
+]
