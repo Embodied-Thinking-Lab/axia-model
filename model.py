@@ -79,7 +79,6 @@ class ReachModel(nn.Module):
     def predict_heads(self, z):
         return self.goal_distance_head(z), self.success_head(z)
 
-
     def forward(self, state, action=None):
         z = self.encode(state)
         goal_distance, success_logit = self.predict_heads(z)
