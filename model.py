@@ -32,4 +32,29 @@ class DynamicsModel(nn.Module):
     def forward(self, z, action):
         x = torch.cat([z, action], dim=-1)
         return self.network(x)
-        
+
+
+class GoalDistanceHead(nn.Module):
+    def __init__(self, latent_dim):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(latent_dim, 128),
+            nn.ELU(),
+            nn.Linear(128, 1)
+        )
+
+    def forward(self, z):
+        return self.network(z)
+
+
+class SuccessHead(nn.Module):
+    def __init__(self, latent_dim):
+        super().__init__()
+        self.network =  nn.Sequential(
+            nn.Linear(latent_dim, 128),
+            nn.ELU(), 
+            nn.Linear(128, 1)
+        )
+
+    def forward(self, z):
+        return self.network(z)

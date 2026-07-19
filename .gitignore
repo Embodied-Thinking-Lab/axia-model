@@ -8,3 +8,6 @@ wheels/
 
 # Virtual environments
 .venv
+
+# file for debugging tensor shapes
+test_model.py 
