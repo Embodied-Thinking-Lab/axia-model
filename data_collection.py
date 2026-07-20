@@ -1,3 +1,5 @@
+import random
+
 import torch 
 from function_helpers import compute_goal_distance, flatten_observation
 
@@ -34,3 +36,28 @@ def build_transitions(obs, action, next_obs, info, next_info):
         "goal_distance": targets["goal_distance"],
         "success": targets["success"]
     }
+
+
+class ReplayBuffer:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.buffer = []
+
+    def add(self, transition):
+        if len(self.buffer) >= self.capacity:
+            self.buffer.pop(0)
+
+        self.buffer.append(transition)
+
+    def sample(self, batch_size):
+        batch = random.sample(self.buffer, batch_size)
+        return {
+            "state": torch.cat([transition["state"] for transition in batch], dim=0),
+            "action": torch.cat([transition["action"] for transition in batch], dim=0),
+            "next_state": torch.cat([transition["next_state"] for transition in batch], dim=0),
+            "goal_distance": torch.cat([transition["goal_distance"] for transition in batch], dim=0),
+            "success": torch.cat([transition["success"] for transition in batch], dim=0),
+        }
+
+    def __len__(self):
+        return len(self.buffer)
