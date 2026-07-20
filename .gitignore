@@ -11,3 +11,4 @@ wheels/
 
 # file for debugging tensor shapes
 test_model.py 
+*.pt
